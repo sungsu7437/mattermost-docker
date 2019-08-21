@@ -33,7 +33,7 @@ services:
       # set same as db credentials and dbname
       - MM_USERNAME=mmuser
       - MM_PASSWORD=mmuser_password
-      - MM_DBNAME=mattermos
+      - MM_DBNAME=mattermost
       # set amazon s3 information
       # - MM_DRIVER_NAME=
       # - MM_AMAZON_S3_BUCKET=
