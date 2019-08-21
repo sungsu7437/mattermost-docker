@@ -11,6 +11,13 @@ DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
 MM_DBNAME=${MM_DBNAME:-mattermost}
 MM_CONFIG=${MM_CONFIG:-/mattermost/config/config.json}
 
+# Read environment variables for Amazon S3 file storage
+MM_DRIVER_NAME=${MM_DRIVER_NAME:-local}
+MM_AMAZON_S3_BUCKET=${MM_AMAZON_S3_BUCKET:-""}
+MM_AMAZON_S3_REGION=${MM_AMAZON_S3_REGION:-""}
+MM_AMAZON_S3_ACCESS_KEYID=${MM_AMAZON_S3_ACCESS_KEYID:-""}
+MM_AMAZON_S3_SECRET_ACCESS_KEY=${MM_AMAZON_S3_SECRET_ACCESS_KEY:-""}
+
 if [ "${1:0:1}" = '-' ]; then
     set -- mattermost "$@"
 fi
@@ -49,6 +56,12 @@ if [ "$1" = 'mattermost' ]; then
     jq '.SqlSettings.DriverName = "postgres"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.SqlSettings.AtRestEncryptKey = "'$(generate_salt)'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.PluginSettings.Directory = "/mattermost/plugins/"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    # Substitue filesystem parameters with jq
+    jq '.FileSettings.DriverName = "'${MM_DRIVER_NAME}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    jq '.FileSettings.AmazonS3Bucket = "'${MM_AMAZON_S3_BUCKET}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    jq '.FileSettings.AmazonS3Region = "'${MM_AMAZON_S3_REGION}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    jq '.FileSettings.AmazonS3AccessKeyId = "'${MM_AMAZON_S3_ACCESS_KEYID}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    jq '.FileSettings.AmazonS3SecretAccessKey = "'${MM_AMAZON_S3_SECRET_ACCESS_KEY}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
   else
     echo "Using existing config file" $MM_CONFIG
   fi
