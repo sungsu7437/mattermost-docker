@@ -15,7 +15,7 @@ MM_CONFIG=${MM_CONFIG:-/mattermost/config/config.json}
 MM_DRIVER_NAME=${MM_DRIVER_NAME:-local}
 MM_AMAZON_S3_BUCKET=${MM_AMAZON_S3_BUCKET:-""}
 MM_AMAZON_S3_REGION=${MM_AMAZON_S3_REGION:-""}
-MM_AMAZON_S3_ACCESS_KEYID=${MM_AMAZON_S3_ACCESS_KEYID:-""}
+MM_AMAZON_S3_ACCESS_KEY_ID=${MM_AMAZON_S3_ACCESS_KEY_ID:-""}
 MM_AMAZON_S3_SECRET_ACCESS_KEY=${MM_AMAZON_S3_SECRET_ACCESS_KEY:-""}
 
 if [ "${1:0:1}" = '-' ]; then
@@ -60,7 +60,7 @@ if [ "$1" = 'mattermost' ]; then
     jq '.FileSettings.DriverName = "'${MM_DRIVER_NAME}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.FileSettings.AmazonS3Bucket = "'${MM_AMAZON_S3_BUCKET}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.FileSettings.AmazonS3Region = "'${MM_AMAZON_S3_REGION}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
-    jq '.FileSettings.AmazonS3AccessKeyId = "'${MM_AMAZON_S3_ACCESS_KEYID}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    jq '.FileSettings.AmazonS3AccessKeyId = "'${MM_AMAZON_S3_ACCESS_KEY_ID}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.FileSettings.AmazonS3SecretAccessKey = "'${MM_AMAZON_S3_SECRET_ACCESS_KEY}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
   else
     echo "Using existing config file" $MM_CONFIG
