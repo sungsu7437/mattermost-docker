@@ -2,117 +2,47 @@
     "AWSEBDockerrunVersion": "2",
     "volumes": [
         {
-            "name": "app-config",
+            "name": "etclocaltime",
             "host": {
-                "sourcePath": "/var/app/current/app/mattermost/config"
-            }
-        },
-        {
-            "name": "app-data",
-            "host": {
-                "sourcePath": "/var/app/current/app/mattermost/data"
-            }
-        },
-        {
-            "name": "app-logs",
-            "host": {
-                "sourcePath": "/var/app/current/app/mattermost/logs"
-            }
-        },
-        {
-            "name": "app-plugins",
-            "host": {
-                "sourcePath": "/var/app/current/app/mattermost/plugins"
-            }
-        },
-        {
-            "name": "db-data",
-            "host": {
-                "sourcePath": "/var/app/current/db/mattermost/var/lib/postgresql/data"
-            }
-        },
-        {
-            "name": "web-cert",
-            "host": {
-                "sourcePath": "/var/app/current/web/cert"
+                "sourcePath": "/etc/localtime"
             }
         }
     ],
     "containerDefinitions": [
         {
-            "name": "db",
-            "image": "mattermost/mattermost-prod-db:latest",
-            "memory": 128,
+            "name": "app",
+            "image": "sungsu7437/mattermost-prod-app:latest",
+            "memory": 256,
             "essential": true,
             "mountPoints": [
                 {
-                    "sourceVolume": "db-data",
-                    "containerPath": "/var/lib/postgresql/data"
+                    "sourceVolume": "etclocaltime",
+                    "containerPath": "/etc/localtime"
                 }
             ],
             "environment": [
               {
-                "name": "POSTGRES_USER",
-                "value": "mmuser"
+                "name": "DB_HOST",
+                "value": "db_endpoint"
               }, {
-                "name": "POSTGRES_PASSWORD",
-                "value": "mmuser_password"
+                "name": "DB_PORT",
+                "value": "5432"
               }, {
-                "name": "POSTGRES_DB",
+                "name": "MM_USERNAME",
+                "value": "postgres"
+              }, {
+                "name": "MM_PASSWORD",
+                "value": "db_password"
+              }, {
+                "name": "MM_DBNAME",
                 "value": "mattermost"
               }
-            ]
-        },
-        {
-            "name": "app",
-            "image": "mattermost/mattermost-prod-app:latest",
-            "memory": 128,
-            "essential": true,
-            "mountPoints": [
-                {
-                    "sourceVolume": "app-config",
-                    "containerPath": "/mattermost/config"
-                },
-                {
-                    "sourceVolume": "app-data",
-                    "containerPath": "/mattermost/data"
-                },
-                {
-                    "sourceVolume": "app-logs",
-                    "containerPath": "/mattermost/logs"
-                },
-                {
-                    "sourceVolume": "app-plugins",
-                    "containerPath": "/mattermost/plugins"
-                }
-            ],
-            "links": [
-                "db"
-            ]
-        },
-        {
-            "name": "web",
-            "image": "mattermost/mattermost-prod-web:5.9.0",
-            "memory": 128,
-            "essential": true,
-            "mountPoints": [
-                {
-                    "sourceVolume": "web-cert",
-                    "containerPath": "/cert"
-                }
             ],
             "portMappings": [
                 {
                     "hostPort": 80,
-                    "containerPort": 80
-                },
-                {
-                    "hostPort": 443,
-                    "containerPort": 443
+                    "containerPort": 8000
                 }
-            ],
-            "links": [
-                "app"
             ]
         }
     ]

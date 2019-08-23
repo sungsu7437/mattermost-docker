@@ -6,10 +6,9 @@
 
 ### Install
 
-Make the changes in the config file to reflect your needs (app/mattermost/config/config.json)
 
 ```
 eb init
-eb create prod
+eb create prod -i t2.small --elb-type network
 eb open prod
 ```
