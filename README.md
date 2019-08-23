@@ -92,6 +92,12 @@ applications:
     MM_PASSWORD: database password
 
 ```
+If you use AWS S3 for file storage. You should configure it with following environment variables :
+* `MM_DRIVER_NAME` : amazons3
+* `MM_AMAZON_S3_BUCKET` : AWS s3 bucket name
+* `MM_AMAZON_S3_REGION` : AWS region
+* `MM_AMAZON_S3_ACCESS_KEY_ID` : AWS access key id
+* `MM_AMAZON_S3_SECRET_ACCESS_KEY` : AWS secret access key
 
 ### Web server container
 This image is optional, you should **not** use it when you have your own reverse-proxy. It is a simple front Web server for the Mattermost app container. If you use the provided `docker-compose.yml` file, you don't have to configure anything. But if your application container is reachable on custom host and/or port (eg. if you use a container provider), you should add those two environment variables :
