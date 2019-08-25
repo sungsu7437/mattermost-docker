@@ -12,3 +12,10 @@ eb init
 eb create prod -i t2.small --elb-type network
 eb open prod
 ```
+
+Default loadbalancer is classic load balancer and it causes `websocket http 400 errors`.
+
+Default protocol for classic and application load balancer are http protocol. 
+
+Network load balancer's default protocol is tcp.
+
