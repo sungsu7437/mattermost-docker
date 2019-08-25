@@ -12,7 +12,7 @@
         {
             "name": "app",
             "image": "sungsu7437/mattermost-prod-app:latest",
-            "memory": 256,
+            "memory": 1024,
             "essential": true,
             "mountPoints": [
                 {
