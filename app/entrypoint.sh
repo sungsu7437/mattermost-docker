@@ -18,6 +18,7 @@ MM_AMAZON_S3_REGION=${MM_AMAZON_S3_REGION:-""}
 MM_AMAZON_S3_ACCESS_KEY_ID=${MM_AMAZON_S3_ACCESS_KEY_ID:-""}
 MM_AMAZON_S3_SECRET_ACCESS_KEY=${MM_AMAZON_S3_SECRET_ACCESS_KEY:-""}
 
+MM_PLUGIN_ENABLE_UPLOADS=${MM_PLUGIN_ENABLE_UPLOADS:-false}
 if [ "${1:0:1}" = '-' ]; then
     set -- mattermost "$@"
 fi
@@ -62,6 +63,7 @@ if [ "$1" = 'mattermost' ]; then
     jq '.FileSettings.AmazonS3Region = "'${MM_AMAZON_S3_REGION}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.FileSettings.AmazonS3AccessKeyId = "'${MM_AMAZON_S3_ACCESS_KEY_ID}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
     jq '.FileSettings.AmazonS3SecretAccessKey = "'${MM_AMAZON_S3_SECRET_ACCESS_KEY}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
+    jq '.PluginSettings.EnableUploads = "'${MM_PLUGIN_ENABLE_UPLOADS}'"' $MM_CONFIG > $MM_CONFIG.tmp && mv $MM_CONFIG.tmp $MM_CONFIG
   else
     echo "Using existing config file" $MM_CONFIG
   fi
