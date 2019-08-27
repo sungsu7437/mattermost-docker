@@ -51,6 +51,9 @@
               }, {
                 "name": "MM_AMAZON_S3_SECRET_ACCESS_KEY",
                 "value": "XXXX"
+              }, {
+		"name": "MM_PLUGIN_ENABLE_UPLOADS",
+		"value": "true"
               }
             ],
             "portMappings": [
